@@ -1,0 +1,32 @@
+/* Admin: an app screen in the achromatic ledger style (seed 1673915428). Lines, small labels and
+   the 8px radius follow the app-screen rules; the one hue (#1d5fbf) marks the pickups waiting. */
+.admin { --a-ground: #f2f4f7; --a-card: #ffffff; --a-rule: #e6e9ee; --a-control: #cfd5dd; --a-text: #14202b; --a-muted: #5b6672; --a-hue: #1d5fbf; }
+.admin { background: var(--a-ground); color: var(--a-text); font-size: 14px; line-height: 1.45; min-height: 100svh; }
+.admin .a-input {
+  height: 36px; padding: 0 12px; background: #fff; border: 1px solid var(--a-control); border-radius: 8px;
+  font: inherit; font-size: 14px; color: var(--a-text);
+}
+.admin .a-input:focus { outline: 2px solid var(--a-hue); outline-offset: 1px; }
+.admin .a-btn {
+  height: 36px; padding: 0 14px; border-radius: 8px; border: 0; cursor: pointer; font: inherit; font-size: 14px; font-weight: 500;
+  background: var(--a-text); color: #fff; transition: transform var(--t-press) var(--ease-out), background-color var(--t-hover) ease;
+}
+.admin .a-btn:active { transform: scale(0.97); }
+.admin .a-btn--grey { background: #e5e5e5; color: var(--a-text); }
+@media (hover: hover) and (pointer: fine) {
+  .admin .a-btn:hover { background: #2c3a47; }
+  .admin .a-btn--grey:hover { background: #d9d9d9; }
+}
+.admin .a-tab { position: relative; padding: 10px 0; color: var(--a-muted); background: none; border: 0; cursor: pointer; font: inherit; white-space: nowrap; }
+.admin .a-tab[aria-selected="true"] { color: var(--a-text); font-weight: 500; }
+.admin .a-tab[aria-selected="true"]::after { content: ""; position: absolute; left: 0; right: 0; bottom: -1px; height: 2px; background: var(--a-text); }
+.admin .a-row { border-top: 1px solid var(--a-rule); }
+.admin .a-select {
+  height: 36px; padding: 0 30px 0 12px; border: 1px solid var(--a-control); border-radius: 8px; background-color: #fff;
+  font: inherit; font-size: 14px; color: var(--a-text); appearance: none; cursor: pointer;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath d='M3 4.5 6 7.5 9 4.5' fill='none' stroke='%235b6672' stroke-width='1.5'/%3E%3C/svg%3E");
+  background-repeat: no-repeat; background-position: right 10px center;
+}
+.admin .a-select[data-status="pending"] { border-color: var(--a-hue); color: var(--a-hue); font-weight: 500; }
+.admin .a-select:disabled { opacity: 0.6; cursor: progress; }
+.admin .a-bar { display: block; background: #e6e9ee; border-radius: 4px; }

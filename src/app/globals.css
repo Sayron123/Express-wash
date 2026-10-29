@@ -1,0 +1,218 @@
+@import "tailwindcss";
+
+/* Express Wash: tokens.
+   Direction "The name as a monument" (seed 1883503685). The dealt Sand and moss proportions are kept
+   (one ground, one ink, one accent on the action, one deep field), with the colours taken from the
+   subject: a washed white towel, detergent blue, rinse water. */
+:root {
+  --bg: #eef0ec;
+  --surface: #e1e6e3;
+  --ink: #14202b;
+  --muted: #414b55;
+  --accent: #1d5fbf;
+  --accent-strong: #174d9c;
+  --accent-ink: #ffffff;
+  --field: #123a66;
+  --field-ink: #ffffff;
+  --field-muted: #c3d4e6;
+  --water: #d3e2ef;
+  --water-2: #b9d0e5;
+  --water-3: #8fb2d3;
+  --paper: #fbfcfa;
+
+  --step-small: clamp(0.8125rem, 0.79rem + 0.1vw, 0.875rem);
+  --step-body: clamp(1.0625rem, 1rem + 0.25vw, 1.1875rem);
+  --step-lead: clamp(1.25rem, 1.1rem + 0.7vw, 1.625rem);
+  --step-head: clamp(1.75rem, 1.2rem + 2vw, 2.5rem);
+  --step-display: clamp(34px, 9vw, 140px);
+
+  --margin: 16px;
+  --gutter: 16px;
+  --section: 48px;
+  --banner-h: 40px;
+
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out: cubic-bezier(0.76, 0, 0.24, 1);
+  --t-press: 140ms;
+  --t-hover: 180ms;
+  --t-ui: 240ms;
+}
+@media (min-width: 768px) {
+  :root { --margin: 28px; --gutter: 24px; --section: 120px; --banner-h: 32px; }
+}
+@media (min-width: 1024px) {
+  :root { --section: 200px; }
+}
+
+@theme inline {
+  --color-ground: var(--bg);
+  --color-surface: var(--surface);
+  --color-ink: var(--ink);
+  --color-muted: var(--muted);
+  --color-accent: var(--accent);
+  --color-field: var(--field);
+  --color-field-muted: var(--field-muted);
+  --color-water: var(--water);
+  --color-paper: var(--paper);
+  --font-display: var(--font-unbounded), system-ui, sans-serif;
+  --font-text: var(--font-onest), system-ui, sans-serif;
+}
+
+@layer base {
+/* ---------- base ---------- */
+*, *::before, *::after { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-text);
+  font-size: var(--step-body);
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+h1, h2, h3 { font-weight: inherit; text-wrap: balance; }
+p { text-wrap: pretty; }
+::selection { background: var(--accent); color: var(--accent-ink); }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+.on-dark :focus-visible { outline-color: var(--field-ink); }
+
+}
+
+@layer components {
+.wrap { padding-inline: var(--margin); }
+.grid12 { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--gutter); }
+.nums { font-variant-numeric: tabular-nums; }
+.sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+
+/* Display face: Unbounded 800, uppercase, tight. */
+.display { font-family: var(--font-display); font-weight: 800; text-transform: uppercase; letter-spacing: -0.03em; line-height: 0.9; }
+.head { font-family: var(--font-display); font-weight: 800; text-transform: uppercase; font-size: var(--step-head); letter-spacing: -0.02em; line-height: 1.02; }
+/* The five sizes: display, head, lead, body, small. */
+.t-display { font-size: var(--step-display); }
+.t-head { font-size: var(--step-head); line-height: 1.1; }
+.lead, .t-lead { font-size: var(--step-lead); line-height: 1.35; }
+.t-body { font-size: var(--step-body); line-height: 1.5; }
+.small, .t-small { font-size: var(--step-small); line-height: 1.45; }
+
+/* ---------- controls ---------- */
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 0.6em;
+  min-height: 52px; padding: 0 1.5rem;
+  background: var(--accent); color: var(--accent-ink);
+  font-weight: 500; text-decoration: none; white-space: nowrap; border: 0; border-radius: 0; cursor: pointer;
+  transition: transform var(--t-press) var(--ease-out), background-color var(--t-hover) ease;
+}
+.btn:active { transform: scale(0.97); }
+.btn[aria-disabled="true"], .btn:disabled { background: var(--muted); cursor: not-allowed; }
+.btn .arrow { transition: transform var(--t-ui) var(--ease-out); }
+.link { text-decoration: underline; text-decoration-color: transparent; text-underline-offset: 0.22em; text-decoration-thickness: 0.07em; transition: text-decoration-color var(--t-hover) ease; }
+.link-plain { text-decoration: underline; text-underline-offset: 0.2em; text-decoration-thickness: 0.07em; }
+@media (hover: hover) and (pointer: fine) {
+  .btn:hover { background: var(--accent-strong); }
+  .btn:hover .arrow { transform: translateX(4px); }
+  .link:hover { text-decoration-color: currentColor; }
+}
+
+.step-btn {
+  display: inline-grid; place-items: center; width: 44px; height: 44px;
+  background: var(--paper); color: var(--ink); border: 0; border-radius: 0; cursor: pointer;
+  font-size: 1.25rem; line-height: 1;
+  transition: transform var(--t-press) var(--ease-out), background-color var(--t-hover) ease;
+}
+.step-btn:active { transform: scale(0.92); }
+.step-btn:disabled { opacity: 0.45; cursor: not-allowed; }
+@media (hover: hover) and (pointer: fine) { .step-btn:not(:disabled):hover { background: var(--water); } }
+
+/* Form fields: filled, square, label above. */
+.field {
+  width: 100%; min-height: 52px; padding: 0.75rem 0.9rem;
+  background: var(--paper); color: var(--ink);
+  border: 2px solid transparent; border-radius: 0;
+  font: inherit; font-size: max(1rem, var(--step-body));
+  transition: border-color var(--t-hover) ease;
+}
+.field:focus { outline: none; border-color: var(--accent); }
+.field[aria-invalid="true"] { border-color: #b3261e; }
+textarea.field { min-height: 7rem; resize: vertical; }
+
+/* ---------- hero: the name pinned to two corners ---------- */
+/* On a phone the name sits in the flow at the top (Express left, Wash right) so the first screen stays
+   short; from 1024px the halves pin to opposite corners while two screens pass between them. */
+.hero-word { display: block; margin: 0; font-size: 13.5vw; line-height: 0.85; color: var(--ink); }
+.hero-word--b { text-align: right; }
+.hero-pin { position: relative; background: var(--surface); padding: var(--margin) var(--margin) 0; }
+.hero-title { margin: 0; display: grid; gap: 4px; font-size: 13.5vw; }
+@media (min-width: 768px) {
+  .hero-word, .hero-title { font-size: var(--step-display); }
+}
+@media (min-width: 1024px) {
+  .hero { display: grid; }
+  .hero > * { grid-area: 1 / 1; }
+  .hero-pin {
+    position: sticky; top: 0; align-self: start; z-index: 3; pointer-events: none;
+    height: calc(100svh - var(--banner-h)); padding: 0; background: none;
+  }
+  .hero-title { position: absolute; inset: 0; display: block; font-size: var(--step-display); }
+  .hero-word { position: absolute; pointer-events: auto; }
+  .hero-word--a { top: var(--margin); left: var(--margin); }
+  .hero-word--b { bottom: var(--margin); right: var(--margin); }
+  .hero-panel { min-height: calc(100svh - var(--banner-h)); position: relative; }
+}
+
+/* ---------- drawings ---------- */
+.drawing { display: block; width: 100%; height: 100%; }
+@media (prefers-reduced-motion: no-preference) {
+  .drum { transform-box: fill-box; transform-origin: center; animation: drum 9s linear infinite; }
+  .drum--slow { animation-duration: 14s; }
+  .drum--rev { animation-direction: reverse; }
+}
+@keyframes drum { to { transform: rotate(360deg); } }
+
+/* ---------- how it works: one verb at a time ---------- */
+.verb { font-size: 13.5vw; line-height: 0.9; color: var(--ink); }
+@media (min-width: 768px) { .verb { font-size: var(--step-display); } }
+/* The verb holds the middle of the screen while its own panel passes, then the next one pushes it out. */
+@media (min-width: 1024px) {
+  .verb-hold { position: sticky; top: calc(50svh - var(--step-display) * 0.45); }
+}
+
+/* ---------- pricing: the claim slip ---------- */
+.slip {
+  background: var(--paper); color: var(--ink);
+  --tooth: 14px;
+  clip-path: polygon(
+    0 0, 100% 0, 100% calc(100% - var(--tooth)),
+    95% 100%, 90% calc(100% - var(--tooth)), 85% 100%, 80% calc(100% - var(--tooth)), 75% 100%,
+    70% calc(100% - var(--tooth)), 65% 100%, 60% calc(100% - var(--tooth)), 55% 100%, 50% calc(100% - var(--tooth)),
+    45% 100%, 40% calc(100% - var(--tooth)), 35% 100%, 30% calc(100% - var(--tooth)), 25% 100%,
+    20% calc(100% - var(--tooth)), 15% 100%, 10% calc(100% - var(--tooth)), 5% 100%, 0 calc(100% - var(--tooth))
+  );
+}
+.slip-bar { height: 4px; background: var(--ink); }
+.slip-row { display: flex; justify-content: space-between; gap: 1rem; font-variant-numeric: tabular-nums; }
+@media (prefers-reduced-motion: no-preference) {
+  .slip-total { transition: opacity var(--t-ui) ease; }
+  .tick { animation: tick 360ms var(--ease-out); }
+}
+@keyframes tick { from { opacity: 0.2; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+
+/* ---------- questions on a phone ---------- */
+.faq > summary { list-style: none; }
+.faq > summary::-webkit-details-marker { display: none; }
+
+/* ---------- footer revealed from under the page ---------- */
+.page-body { position: relative; z-index: 1; background: var(--bg); }
+.site-footer { position: sticky; bottom: 0; z-index: 0; }
+
+/* ---------- entrances ----------
+   Content is visible from the first paint. Reveal (a client component) marks an element
+   "reveal-below" only after mount and only if it starts below the fold, then "reveal-in" as it enters. */
+@media (prefers-reduced-motion: no-preference) {
+  .reveal-below { opacity: 0.4; transform: translateY(18px); }
+  .reveal-in { transition: opacity 450ms var(--ease-out), transform 600ms var(--ease-expo); transition-delay: calc(var(--i, 0) * 60ms); }
+  [data-rise] { animation: rise 600ms var(--ease-out) both; animation-delay: calc(var(--i, 0) * 70ms); }
+}
+@keyframes rise { from { opacity: 0.5; transform: translateY(12px); } }
+}
